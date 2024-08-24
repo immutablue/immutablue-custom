@@ -1,3 +1,28 @@
 # Immutablue Custom
 
 A forkable repo that you can use to create a custom build of [Immutablue](https://gitlab.com/immutablue/immutablue)
+
+
+## Getting started
+- Fork this repo to your git provider of choice.
+- Find `change-me` in `Makefile` and `Containerfile` and update them using your container registry and project name of choice (probably from your git provider but doesn't have to be).
+- Have a look at `packages/packages.custom-50-example.yaml` and `packages/template.packages.custom-00-template.yaml`. Copy the latter to a new file, or make tweaks to the formal.
+    - The syntax overall should be straight forward, there are comments that are should describe things and what they do.
+    - If there are questions open an issue.
+- Run `make build` and follow rebasing below
+
+
+## Rebasing
+- Rebase an [Immutablue](https://gitlab.com/immutablue/immutablue) instance to your build with `make rebase` from your repo.
+- After first boot be sure to run `immmutablue install`
+
+
+## Updating 
+- `immutablue update`
+
+
+## FAQs
+- Help, I broke a distrobox container. How do I fix it?
+    - The beautiful thing about having things declared as code is you can just nuke it and remake it: `distrobox rm -f <name>` then follow up with `immutablue update`
+- How do I get started 
+    - Have a look at the source and the comments for the files here

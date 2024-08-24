@@ -1,0 +1,23 @@
+# To use this:
+# cp template.packages.custom-00-example.yaml packages.customer-<2_numbers>-<some-name>.yaml
+# - Example: cp template.packages.custom-00-example.yaml packages.customer-10-mystuff.yaml
+immutablue:
+  repo_urls:
+  rpm:
+  rpm_rm:
+  file_rm:
+  flatpaks_runtime:
+  flatpaks:
+  flatpaks_rm:
+distrobox:
+- name:
+  image: 
+  pkg_inst_cmd:
+  pkg_updt_cmd:
+  extra_commands:
+  packages:
+  npm_packages:
+  pip_packages: 
+  bin_export: 
+  app_export: 
+  bin_symlink:
