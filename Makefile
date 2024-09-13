@@ -21,12 +21,12 @@ endif
 # and represents where the image will be pushed to
 # If Nvidia is in use, it will append '-nvidia' to the end
 
-ifneq ($(NVIDIA), 1)
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
-	IMMUTABLUE_BASE := immutablue
-else 
-	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-nvidia
+ifeq ($(NVIDIA),1)
 	IMMUTABLUE_BASE := immutablue-cyan
+else ifeq ($(ASAHI),1)
+	IMMUTABLUE_BASE := immutablue-asahi
+else 
+	IMMUTABLUE_BASE := immutablue
 endif
 IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
@@ -42,6 +42,12 @@ endif
 # Can override in make
 ifndef $(TAG)
 	TAG = $(CURRENT)
+endif
+
+ifeq ($(NVIDIA),1)
+	TAG := $(TAG)-nvidia
+else ifeq ($(ASAHI),1)
+	TAG := $(TAG)-asahi
 endif
 
 # If you want to set this as latest as well
