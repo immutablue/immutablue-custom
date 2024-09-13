@@ -28,6 +28,7 @@ else
 	IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)-nvidia
 	IMMUTABLUE_BASE := immutablue-cyan
 endif
+IMAGE := $(REGISTRY)/$(IMAGE_BASE_TAG)
 
 # Current version to be based off of
 # Change this after major releases
