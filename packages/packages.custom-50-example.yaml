@@ -13,28 +13,43 @@ immutablue:
   repo_urls:
   # - name: tailscale.repo 
   #   url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+  # We can also set repo_urls per architecture
+  repo_urls_aarch64:
+  repo_urls_x86_64:
 
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
   rpm:
   - emacs
 
+  # You can specify RPMs for specific archs only
+  rpm_aarch64:
+  rpm_x86_64:
+
   # Urls to RPMs to download (they are curled)
   # so provide the url
   rpm_url:
+  rpm_url_aarch64:
+  rpm_url_x86_64:
 
   # RPM packages you want to remove from the image
   rpm_rm:
   - parallel
   - neovim
 
+  # You can remove 
+  rpm_rm_aarch64:
+  rpm_rm_x86_64:
+
   # Build files that need to be removed. If the build is filing about some
   # ephemeral file that exists, put the path here so it get removed in 
   # the later build stages
   file_rm:
   # - /path/to/some/file
-
-  # RPM Packages to be installed
+  # - /path/to/some/dir
+  # Files can be removed per architecture as well
+  file_rm_aarch64:
+  file_rm_x86_64:
 
   # Runtimes for Flatpaks
   # (Can query with `flatpak list --app --columns=application,runtime`)
@@ -50,11 +65,17 @@ immutablue:
   # - com.discordapp.Discord 
   # - us.zoom.Zoom
 
+  # Architecture specific
+  flatpaks_aarch64:
+  flatpaks_x86_64:
 
   #Flatpaks to be uninstalled 
   flatpaks_rm:
   # - org.chromium.Chromium
 
+  # Remove Architecture specific flatpaks
+  flatpaks_rm_aarch64:
+  flatpaks_rm_x86_64:
 
 
 distrobox:
@@ -73,6 +94,9 @@ distrobox:
   # need --privileged for example for VPN software
   additional_flags:
   # - --privileged
+  # You can also specify flags for certain architecture
+  additional_flags_aarch64:
+  additional_flags_x86_64:
   # What are the commands used to install and 
   # update packages in a way that requires 
   # no user input? 
@@ -94,28 +118,41 @@ distrobox:
   - htop 
   - neofetch
   - nautilus
+  # Architecture specific packages 
+  packages_aarch64: 
+  packages_x86_64:
   # Pakages to be install with npm 
   # (installed with -g option in the container)
   npm_packages:
   # - <some_npm_package>
+  npm_packages_aarch64:
+  npm_packages_x86_64:
   #
   # Pakages to be install with pip
   # (installed globally in the container)
   pip_packages:
   # - <some_pip_package>
+  pip_packages_aarch64:
+  pip_packages_x86_64:
   #
   # Packages to install with cargo
   cargo_packages:
   # - <some_cargo_package>
+  cargo_packages_aarch64:
+  cargo_packages_x86_64:
   
   # Binaries to be exposed to the host system
   bin_export: 
   - htop 
   - nautilus
+  bin_export_aarch64:
+  bin_export_x86_64:
   
   # Apps to be exposed to the host system
   app_export: 
   - nautilus
+  app_export_aarch64:
+  app_export_x86_64:
 
   # Binaries to be symlinked "into" the container 
   # from the underlying host. Great for container 
@@ -123,6 +160,8 @@ distrobox:
   # things requiring ptrace, etc.
   bin_symlink:
   - podman 
+  bin_symlink_aarch:
+  bin_symlink_x86_64:
 
 # Extend onto an upstream distrobox
 # This is already provided out-of-the-box
@@ -142,7 +181,9 @@ distrobox:
     - gcc-gfortran
 
   # Just tweak the stuff below if you want 
-  # to add to anything
+  # to add to anything. And note that we 
+  # do not need to put the architecture 
+  # specific sections. 
   npm_packages:
   pip_packages: 
   cargo_packages:
@@ -151,7 +192,8 @@ distrobox:
   bin_symlink:
       
 
-# Brew packages to install or uninstall
+# Brew packages to install or uninstall. 
+# Brew only works on x86_64.
 brew:
   # Packages to install
   install:
