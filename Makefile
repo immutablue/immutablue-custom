@@ -48,6 +48,8 @@ ifeq ($(NVIDIA),1)
 	TAG := $(TAG)-nvidia
 else ifeq ($(ASAHI),1)
 	TAG := $(TAG)-asahi
+else ifeq ($(NUCLEUS),1)
+	TAG := $(TAG)-nucleus
 endif
 
 # If you want to set this as latest as well
