@@ -77,6 +77,28 @@ immutablue:
   flatpaks_rm_aarch64:
   flatpaks_rm_x86_64:
 
+  # Services 
+  # enable
+  services_enable_sys:
+  - xrdp.service
+  # disable services
+  services_disable_sys:
+  # mask a service
+  services_mask_sys:
+  # unmask the service
+  services_unmask_sys:
+
+  # User services 
+  # Handled in immutablue installer
+  # enable
+  services_enable_user:
+  # disable services
+  services_disable_user:
+  # mask a service
+  services_mask_user:
+  # unmask the service
+  services_unmask_user:
+
 
 distrobox:
 # Give it a name, you can later enter this with
