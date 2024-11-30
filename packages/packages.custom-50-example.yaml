@@ -51,6 +51,15 @@ immutablue:
   file_rm_aarch64:
   file_rm_x86_64:
 
+
+  # Repositories for Flatpaks
+  flatpak_repos:
+    - name: flathub
+      url: https://dl.flathub.org/repo/flathub.flatpakrepo 
+
+  flatpak_repos_aarch64:
+  flatpak_repos_x86_64:
+
   # Runtimes for Flatpaks
   # (Can query with `flatpak list --app --columns=application,runtime`)
   # Really only needed if you plan to build an iso
