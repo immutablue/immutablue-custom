@@ -25,6 +25,7 @@ COPY ./packages/packages.custom-*.yaml ${INSTALL_DIR}/
 WORKDIR ${CUSTOM_INSTALL_DIR}
 COPY . .
 WORKDIR /
+COPY ./artifacts/overrides/ /
 
 
 # You can add a mount to another container so:
