@@ -34,8 +34,7 @@ immutablue:
 
   # RPM packages you want to remove from the image
   rpm_rm:
-  - parallel
-  - neovim
+  - tailscale
 
   # You can remove 
   rpm_rm_aarch64:
@@ -45,6 +44,7 @@ immutablue:
   # ephemeral file that exists, put the path here so it get removed in 
   # the later build stages
   file_rm:
+  - /etc/yum.repos.d/tailscale.repo
   # - /path/to/some/file
   # - /path/to/some/dir
   # Files can be removed per architecture as well
