@@ -18,6 +18,8 @@ ARG FEDORA_VERSION=41
 ARG INSTALL_DIR=/usr/immutablue
 ARG NAME=change-me
 ARG CUSTOM_INSTALL_DIR=${INSTALL_DIR}-build-${NAME}
+ARG IMMUTABLUE_BUILD=true
+ARG IMMUTABLUE_IMAGE_TAG=immutablue
 
 
 # Copy files to appropraite place
