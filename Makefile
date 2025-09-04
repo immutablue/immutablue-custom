@@ -115,7 +115,7 @@ ifeq ($(LTS), 1)
 endif
 
 ifeq ($(NIX), 1)
-	BASE_IMAGE := $(BAGE_IMAGE)-nix 
+	BASE_IMAGE := $(BASE_IMAGE)-nix
 	TAG := $(TAG)-nix
 endif
 
