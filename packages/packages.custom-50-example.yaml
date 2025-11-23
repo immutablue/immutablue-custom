@@ -10,115 +10,160 @@
 # immutablue
 immutablue:
   # Repo URLs to add in the build (they are curled)
+  # Version-specific structure: can use 'all', specific version (e.g., '42', '43'),
+  # architecture suffix (e.g., 'all_aarch64'), or both (e.g., '42_aarch64')
   repo_urls:
-  # - name: tailscale.repo 
-  #   url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
-  # We can also set repo_urls per architecture
+    all:
+    # - name: tailscale.repo
+    #   url: https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+    # 42:
+    # - name: some-42-specific.repo
+    #   url: https://example.com/fedora-42/repo
   repo_urls_aarch64:
+    all:
   repo_urls_x86_64:
+    all:
 
   # RPM packages you want to install
   # Same name as anything you'd normally install with `dnf install <name>`
   rpm:
-  - emacs
+    42:
+    - emacs
+    # You can also add version-specific packages:
+    # 42:
+    # - some-package-for-42
+    # 43:
+    # - some-package-for-43
 
   # these can be set for speicific builds too (see /usr/immutablue/build_options)
   rpm_silverblue:
-  - neovim
+    all:
+    - neovim
 
   # these can be set for speicific builds too (see /usr/immutablue/build_options)
   rpm_gui:
-  - neovim-qt
+    all:
+    - neovim-qt
 
   # You can specify RPMs for specific archs only
   rpm_aarch64:
+    all:
   rpm_x86_64:
+    all:
 
   # Urls to RPMs to download (they are curled)
   # so provide the url
   rpm_url:
+    all:
   rpm_url_aarch64:
+    all:
   rpm_url_x86_64:
+    all:
 
   # RPM packages you want to remove from the image
   rpm_rm:
-  - tailscale
+    all:
+    - tailscale
 
-  # You can remove 
+  # You can remove
   rpm_rm_aarch64:
+    all:
   rpm_rm_x86_64:
+    all:
 
   # Build files that need to be removed. If the build is filing about some
-  # ephemeral file that exists, put the path here so it get removed in 
+  # ephemeral file that exists, put the path here so it get removed in
   # the later build stages
   file_rm:
-  - /etc/yum.repos.d/tailscale.repo
-  # - /path/to/some/file
-  # - /path/to/some/dir
+    all:
+    - /etc/yum.repos.d/tailscale.repo
+    # - /path/to/some/file
+    # - /path/to/some/dir
   # Files can be removed per architecture as well
   file_rm_aarch64:
+    all:
   file_rm_x86_64:
+    all:
 
 
   # Repositories for Flatpaks
   flatpak_repos:
+    all:
     - name: flathub
-      url: https://dl.flathub.org/repo/flathub.flatpakrepo 
+      url: https://dl.flathub.org/repo/flathub.flatpakrepo
 
   flatpak_repos_aarch64:
+    all:
   flatpak_repos_x86_64:
+    all:
 
   # Runtimes for Flatpaks
   # (Can query with `flatpak list --app --columns=application,runtime`)
   # Really only needed if you plan to build an iso
   flatpaks_runtime:
-  # - org.gnome.Platform/x86_64/46 
-  # - org.freedesktop.Platform/x86_64/23.08 
-  
-  
+    all:
+    # - org.gnome.Platform/x86_64/46
+    # - org.freedesktop.Platform/x86_64/23.08
+
+
   # Flatpaks to be installed
   # Check https://flathub.org
   flatpaks:
-  # - com.discordapp.Discord 
-  # - us.zoom.Zoom
+    all:
+    # - com.discordapp.Discord
+    # - us.zoom.Zoom
 
   # Architecture specific
   flatpaks_aarch64:
+    all:
   flatpaks_x86_64:
+    all:
 
-  #Flatpaks to be uninstalled 
+  # Flatpaks to be uninstalled
   flatpaks_rm:
-  # - org.chromium.Chromium
+    all:
+    # - org.chromium.Chromium
 
   # Remove Architecture specific flatpaks
   flatpaks_rm_aarch64:
+    all:
   flatpaks_rm_x86_64:
+    all:
 
-  # Services 
+  # Services
   # enable
   services_enable_sys:
+    all:
 
   # xrdp requires a gui, so only do it for gui builds
   # (not-nucleus)
   services_enable_sys_gui:
-  - xrdp.service
+    all:
+    - xrdp.service
   # disable services
   services_disable_sys:
+    all:
   # mask a service
   services_mask_sys:
+    all:
   # unmask the service
   services_unmask_sys:
+    all:
 
-  # User services 
+  # User services
   # Handled in immutablue installer
   # enable
   services_enable_user:
+    all:
   # disable services
   services_disable_user:
+    all:
   # mask a service
   services_mask_user:
+    all:
   # unmask the service
   services_unmask_user:
+    all:
 
 
 distrobox:
