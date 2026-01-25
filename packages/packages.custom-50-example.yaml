@@ -280,8 +280,7 @@ distrobox:
   bin_symlink:
       
 
-# Brew packages to install or uninstall. 
-# Brew only works on x86_64.
+# Brew packages to install or uninstall.
 brew:
   # Packages to install
   install:
