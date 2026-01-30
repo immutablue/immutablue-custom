@@ -30,6 +30,8 @@ ifndef $(TAG)
 	TAG = $(VERSION)
 endif
 
+# Date tag for versioned snapshots (e.g., 43-20260129)
+DATE_TAG := $(TAG)-$(shell date +%Y%m%d)
 
 BASE_IMAGE := quay.io/immutablue/immutablue:$(VERSION)
 
@@ -158,6 +160,7 @@ ifeq ($(SET_AS_LATEST), 1)
 		--no-cache \
 		-t $(IMAGE):latest \
 		-t $(IMAGE):$(TAG) \
+		-t $(IMAGE):$(DATE_TAG) \
 		-f ./Containerfile \
 		--build-arg=BASE_IMAGE=$(BASE_IMAGE) \
 		--build-arg=IMMUTABLUE_BASE=$(IMMUTABLUE_BASE) \
@@ -169,6 +172,7 @@ else
 		--ignorefile ./.containerignore \
 		--no-cache \
 		-t $(IMAGE):$(TAG) \
+		-t $(IMAGE):$(DATE_TAG) \
 		-f ./Containerfile \
 		--build-arg=BASE_IMAGE=$(BASE_IMAGE) \
 		--build-arg=IMMUTABLUE_BASE=$(IMMUTABLUE_BASE) \
@@ -187,6 +191,9 @@ endif
 	buildah \
 		push \
 		$(IMAGE):$(TAG)
+	buildah \
+		push \
+		$(IMAGE):$(DATE_TAG)
 ifneq ($(ALT_IMAGE), none)
 	buildah \
 		tag \
@@ -195,6 +202,13 @@ ifneq ($(ALT_IMAGE), none)
 	buildah \
 		push \
 		$(ALT_IMAGE):$(TAG)
+	buildah \
+		tag \
+		$(IMAGE):$(DATE_TAG) \
+		$(ALT_IMAGE):$(DATE_TAG)
+	buildah \
+		push \
+		$(ALT_IMAGE):$(DATE_TAG)
 endif
 
 
