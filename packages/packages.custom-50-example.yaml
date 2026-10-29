@@ -6,10 +6,40 @@
 # Meaning, if you are attempting to modify already existing distrobox
 # containers for example. Understand the ordering of how they are ran.
 
+# Backends
+# Immutablue builds on more than one operating system (a "backend"):
+#   fedora-bootc  Fedora Atomic (the default)       make build
+#   arch-bootc    Arch Linux                        make ARCHLINUX=1 build
+#   freebsd-be    FreeBSD 15.1                      make FREEBSD=1 build
+#   gnomeos       GNOME OS (no package manager)
+# Each backend reads:
+#   - its *native* package lists, in its own package names:
+#       rpm*      on fedora-bootc
+#       pacman*   on arch-bootc
+#       freebsd*  on freebsd-be
+#   - the *logical* package lists (pkg*), which name a package once for
+#     every backend and override the name only where a backend differs.
+# Service lists are shared; an entry can map a systemd unit to its rc(8)
+# script name for FreeBSD: {name: sshd.service, rc: sshd}.
+#
+# The logical lists, the pacman*/freebsd* lists and the {name:, rc:} service
+# entries need a base image built from Immutablue's multi-backend design
+# (it ships /usr/immutablue/backends). On an older base image built from
+# Immutablue master only the rpm* keys, plain service names and the rest of
+# this file are read, exactly as before.
+#
+# Every list is composed the same way: <key>.all, then <key>.<version>
+# (e.g. 44, or arch on arch-bootc), then the architecture and build option
+# variants (<key>_x86_64, <key>_gui, <key>_silverblue, ...). See
+# docs/backends.org.
+
 # Immutablue section, which applies to **YOUR** build of 
 # immutablue
 immutablue:
   # Repo URLs to add in the build (they are curled)
+  # These are dnf .repo files, so they apply to fedora-bootc only (the
+  # backend's repo_key in Immutablue's backend.yaml). arch-bootc and
+  # freebsd-be define no repository key yet, and the stage is skipped there.
   # Version-specific structure: can use 'all', specific version (e.g., '42', '43'),
   # architecture suffix (e.g., 'all_aarch64'), or both (e.g., '42_aarch64')
   repo_urls:
@@ -22,7 +52,29 @@ immutablue:
     all_aarch64:
     all_x86_64:
 
-  # RPM packages you want to install
+  # Logical packages: installed on every backend, named once.
+  # An entry is either a plain name (the same on every backend) or a map:
+  #   name:     the default name (and the Fedora name)
+  #   rpm:      the name on fedora-bootc, when it differs from name
+  #   pacman:   the name on arch-bootc
+  #   freebsd:  the name on freebsd-be
+  # An override can be a list (several packages for one entry) or null
+  # (not available, or not wanted, on that backend).
+  # The usual suffixes work: pkg_gui, pkg_silverblue, pkg_x86_64, version
+  # keys, ...
+  pkg:
+    all:
+    # - tmux
+    # - {name: fd-find, pacman: fd, freebsd: null}
+    # - {name: bemenu-run, pacman: [bemenu, bemenu-wayland], freebsd: bemenu}
+
+  # Logical packages to remove, same shape as pkg
+  pkg_rm:
+    all:
+    # - {name: nano, freebsd: null}
+
+  # RPM packages you want to install (fedora-bootc only; and the only package
+  # list read on base images built from Immutablue master)
   # Same name as anything you'd normally install with `dnf install <name>`
   rpm:
     44:
@@ -47,14 +99,30 @@ immutablue:
     all:
     - neovim-qt
 
+  # Native packages for the other backends, in their own package names
+  # (pacman -S <name> on arch-bootc, pkg install <name> on freebsd-be).
+  pacman:
+    all:
+    # - pacman-contrib
+  freebsd:
+    all:
+    # - linux-rl9
+
   # Urls to RPMs to download (they are curled)
   # so provide the url
+  # (fedora-bootc; arch-bootc reads pacman_url, freebsd-be freebsd_url)
   rpm_url:
     all:
     all_aarch64:
     all_x86_64:
+  pacman_url:
+    all:
+  freebsd_url:
+    all:
 
   # RPM packages you want to remove from the image
+  # (fedora-bootc; pacman_rm on arch-bootc, freebsd_rm on freebsd-be; with
+  # backends, packages that are not installed are skipped, not an error)
   rpm_rm:
     all:
     - tailscale
@@ -62,6 +130,10 @@ immutablue:
   # You can remove
     all_aarch64:
     all_x86_64:
+  pacman_rm:
+    all:
+  freebsd_rm:
+    all:
 
   # Build files that need to be removed. If the build is filing about some
   # ephemeral file that exists, put the path here so it get removed in
@@ -115,12 +187,21 @@ immutablue:
     all_x86_64:
 
   # Services
+  # Plain unit names work everywhere systemd does. An entry can also map the
+  # unit to its rc(8) script on freebsd-be, or leave it out there with null:
+  #   - {name: sshd.service, rc: sshd}
+  #   - {name: foo.timer, rc: null}
+  # FreeBSD has no masking and no per-user services; those requests are
+  # reported and skipped there.
   # enable
   services_enable_sys:
     all:
+    # - {name: sshd.service, rc: sshd}
 
   # xrdp requires a gui, so only do it for gui builds
   # (not-nucleus)
+  # Note: Immutablue does not install xrdp on arch-bootc, so remove this
+  # entry (or move it to a 44: list) before building with ARCHLINUX=1.
   services_enable_sys_gui:
     all:
     - xrdp.service
