@@ -115,6 +115,14 @@ immutablue:
     all:
     all_aarch64:
     all_x86_64:
+  # Signing keys for the rpm_url packages (fedora-bootc). Fedora 45's rpm
+  # refuses a package whose key is not imported, so list each vendor's key:
+  # an http(s) URL, an absolute path in the image, or a path in this repo
+  # (for a key the vendor only ships inside its package).
+  rpm_gpg_keys:
+    all:
+    # - https://example.com/RPM-GPG-KEY-example
+    # - keys/RPM-GPG-KEY-example.asc
   pacman_url:
     all:
   freebsd_url:
