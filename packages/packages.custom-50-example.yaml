@@ -302,7 +302,9 @@ immutablue:
       cargo_packages_aarch64:
       cargo_packages_x86_64:
 
-      # Binaries to be exposed to the host system
+      # Binaries to be exposed to the host system (~/bin/export), by name on the
+      # box's PATH or as an absolute path. One that is not installed in the box
+      # is skipped with a warning.
       bin_export:
       - htop
       - nautilus
